@@ -20,7 +20,9 @@ require 'rspec/rails'
 # of increasing the boot-up time by auto-requiring all files in the support
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
-#
+
+require 'webmock/rspec'
+
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
@@ -35,6 +37,21 @@ Shoulda::Matchers.configure do |config|
 end
 
 RSpec.configure do |config|
+
+  WebMock.disable_net_connect!(allow_localhost: true)
+
+  def intercept_googleapis
+    stub_request(:get, /maps\.googleapis\.com*/).
+      to_return(
+        status: 200,
+        body: body
+        )
+  end
+
+  def body
+    "{\n   \"results\" : [\n      {\n         \"address_components\" : [\n            {\n               \"long_name\" : \"62\",\n               \"short_name\" : \"62\",\n               \"types\" : [ \"street_number\" ]\n            },\n            {\n               \"long_name\" : \"Calle Pilarica\",\n               \"short_name\" : \"Calle Pilarica\",\n               \"types\" : [ \"route\" ]\n            },\n            {\n               \"long_name\" : \"Madrid\",\n               \"short_name\" : \"Madrid\",\n               \"types\" : [ \"locality\", \"political\" ]\n            },\n            {\n               \"long_name\" : \"Madrid\",\n               \"short_name\" : \"M\",\n               \"types\" : [ \"administrative_area_level_2\", \"political\" ]\n            },\n            {\n               \"long_name\" : \"Comunidad de Madrid\",\n               \"short_name\" : \"Comunidad de Madrid\",\n               \"types\" : [ \"administrative_area_level_1\", \"political\" ]\n            },\n            {\n               \"long_name\" : \"Spain\",\n               \"short_name\" : \"ES\",\n               \"types\" : [ \"country\", \"political\" ]\n            },\n            {\n               \"long_name\" : \"28026\",\n               \"short_name\" : \"28026\",\n               \"types\" : [ \"postal_code\" ]\n            }\n         ],\n         \"formatted_address\" : \"Calle Pilarica, 62, 28026 Madrid, Spain\",\n         \"geometry\" : {\n            \"location\" : {\n               \"lat\" : 40.3838781,\n               \"lng\" : -3.7030654\n            },\n            \"location_type\" : \"ROOFTOP\",\n            \"viewport\" : {\n               \"northeast\" : {\n                  \"lat\" : 40.38522708029149,\n                  \"lng\" : -3.701716419708498\n               },\n               \"southwest\" : {\n                  \"lat\" : 40.38252911970849,\n                  \"lng\" : -3.704414380291502\n               }\n            }\n         },\n         \"place_id\" : \"ChIJSaSdy7InQg0Rg_swuJV20qI\",\n         \"types\" : [ \"street_address\" ]\n      }\n   ],\n   \"status\" : \"OK\"\n}\n"
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

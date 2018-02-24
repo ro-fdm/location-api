@@ -3,15 +3,15 @@ require "rails_helper"
 RSpec.describe GeocodingService do
   before(:each) do
     @location = FactoryBot.create(:location, name: "Rocio",
-                                   address: "Calle Nuñez de Balboa, 120",
-                                   postcode: "28006",
+                                   address: "Calle Pilarica, ",
+                                   postcode: "28026",
                                    city: "Madrid",
-                                   country: "España")
+                                   country: "Spain")
   end
 
-
-  
   it "add latitude and longitude" do
+    intercept_googleapis
+    
     geocoding = GeocodingService.new(location: @location)
     geocoding.run
     
