@@ -23,7 +23,7 @@ RSpec.describe 'Locations API', type: :request do
     context 'when the record exists' do
       it 'returns the todo' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(todo_id)
+        expect(json['id']).to eq(location_id)
       end
 
       it 'returns status code 200' do
@@ -52,7 +52,7 @@ RSpec.describe 'Locations API', type: :request do
                                country: "España"} }
 
     context 'when the request is valid' do
-      before { post '/localisto', params: valid_attributes }
+      before { post '/locations', params: valid_attributes }
 
       it 'creates a todo' do
         expect(json['name']).to eq('Rocio')
@@ -64,7 +64,10 @@ RSpec.describe 'Locations API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/localisto', params: { name: "Rocio" } }
+      before { post '/locations', params: { name: "Rocio",
+                                            city: "Madrid",
+                                            country: "España"
+       } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -72,7 +75,7 @@ RSpec.describe 'Locations API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Address by can't be blank/)
+          .to match(/Validation failed: Address can't be blank, Postcode can't be blank\"/)
       end
     end
   end
