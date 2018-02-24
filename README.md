@@ -24,8 +24,9 @@ Compruebo el test y recuerdo que tengo que
  Tambien veo que lleva 7 decimales y no seis como esperaba, asi que corrijo la migracion, y rollbackeo y remigro.
 
 
- TODO: comprobar direcciones con ñ
-       añadir geocodificacion inversa y ver que nos devuelve ( puede ser intereseante)
-       añadir comprobar si la direccion existe para no repetir llamadas
-       control de errores de api geocodin
-       añadir delete y update en el controlador
+ TODO: 
+ - comprobar direcciones con ñ
+ - añadir geocodificacion inversa y ver que nos devuelve ( puede ser intereseante)
+ - añadir comprobar si la direccion existe para no repetir llamadas
+ - control de errores de api geocodin
+ - añadir delete y update en el controlador
