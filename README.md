@@ -21,6 +21,7 @@ Compruebo el test y recuerdo que tengo que
  stubear la request de la llamada en el test (se trata de testear mi servicio no la api de google :))
 
  Decido añadir en el modelo la formatted address de la longitud y latitud de la llamada, para poder comprobar facilmente si estoy guardando lo qeu quiero y facilitar no repetir futuras llamadas.
+ Tambien veo que lleva 7 decimales y no seis como esperaba, asi que corrijo la migracion, y rollbackeo y remigro.
 
 
  TODO: comprobar direcciones con ñ

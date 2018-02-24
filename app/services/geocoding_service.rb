@@ -8,8 +8,8 @@ class GeocodingService
 
   def run
     full_address = build_full_address
-    lat, lng = call_google_maps(full_address)
-    add_coordinates(lat, lng)
+    lat, lng, formatted_address = call_google_maps(full_address)
+    add_coordinates(lat, lng, formatted_address)
   end
 
   private
@@ -21,18 +21,19 @@ class GeocodingService
   def call_google_maps(address)
     direction = "https://maps.googleapis.com/maps/api/geocode/json?" + "address=#{address} " + "&key=#{API_KEY}"
     response = RestClient.get(direction)
-    lat, lng = parse_response(response)
+    lat, lng, formatted_address = parse_response(response)
   end
 
   def parse_response(response)
     r = JSON.parse(response)
     lat = r["results"].first["geometry"]["location"]["lat"]
     lng = r["results"].first["geometry"]["location"]["lng"]
-    return lat, lng
+    formatted_address = r["results"].first["formatted_address"]
+    return lat, lng, formatted_address
   end
 
-  def add_coordinates(lat, lng)
-    @location.update_columns(latitude: lat, longitude: lng)
+  def add_coordinates(lat, lng, ft)
+    @location.update_columns(latitude: lat, longitude: lng, formatted_address: ft)
   end
 
 end
