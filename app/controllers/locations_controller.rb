@@ -7,6 +7,7 @@ class LocationsController < ApplicationController
 
   def create
     @location = Location.create!(location_params)
+    GeocodingService.new(location: @location).run
     json_response(@location, :created)
   end
 

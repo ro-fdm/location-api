@@ -52,7 +52,10 @@ RSpec.describe 'Locations API', type: :request do
                                country: "España"} }
 
     context 'when the request is valid' do
-      before { post '/locations', params: valid_attributes }
+      before do
+        intercept_googleapis
+        post '/locations', params: valid_attributes
+      end
 
       it 'creates a todo' do
         expect(json['name']).to eq('Rocio')
@@ -75,7 +78,7 @@ RSpec.describe 'Locations API', type: :request do
 
       it 'returns a validation failure message' do
         expect(response.body)
-          .to match(/Validation failed: Address can't be blank, Postcode can't be blank\"/)
+          .to match(/Validation failed: Address can't be blank\"/)
       end
     end
   end

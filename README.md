@@ -23,10 +23,17 @@ Compruebo el test y recuerdo que tengo que
  Decido añadir en el modelo la formatted address de la longitud y latitud de la llamada, para poder comprobar facilmente si estoy guardando lo qeu quiero y facilitar no repetir futuras llamadas.
  Tambien veo que lleva 7 decimales y no seis como esperaba, asi que corrijo la migracion, y rollbackeo y remigro.
 
+Creo algunas direcciones con ñ, me da error la url, asi que la parseo con URI.escape.
 
- TODO: 
- - comprobar direcciones con ñ
+Elimino el postcode como campo obligatorio ( soy la priemra que no se lo suele saber cuadno escribo direcciones en google maps)
+
+Decido usar el  secrets de rails 5 para manejar la API_KEY que estoy usando para llamar a la api de google maps. 
+https://www.engineyard.com/blog/encrypted-rails-secrets-on-rails-5.1
+Como esto es un ejercicio si commiteo el secrets.yml
+
+ TODO:
+ - control de errores de api geocodin
+ - llamar a un delayed job para geocoding en el controlador
  - añadir geocodificacion inversa y ver que nos devuelve ( puede ser intereseante)
  - añadir comprobar si la direccion existe para no repetir llamadas
- - control de errores de api geocodin
  - añadir delete y update en el controlador
