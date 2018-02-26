@@ -52,7 +52,10 @@ RSpec.describe 'Locations API', type: :request do
                                country: "España"} }
 
     context 'when the request is valid' do
-      before { post '/locations', params: valid_attributes }
+      before do
+        intercept_googleapis
+        post '/locations', params: valid_attributes
+      end
 
       it 'creates a todo' do
         expect(json['name']).to eq('Rocio')
