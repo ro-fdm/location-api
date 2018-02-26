@@ -3,8 +3,8 @@ require "rails_helper"
 RSpec.describe GeocodingService do
 
   let(:location) {FactoryBot.create(:location,
-                                     name: "Rocio",
-                                     address: "Calle Pilarica, 6",
+                                     name: "sol",
+                                     address: "Puerta del sol",
                                      city: "Madrid",
                                      country: "Spain") }
   let (:location_invent) { FactoryBot.create(:location,
@@ -23,9 +23,9 @@ RSpec.describe GeocodingService do
     geocoding = GeocodingService.new(location: location)
     geocoding.run
     
-    expect(location.latitude).to eq(40.3838781)
-    expect(location.longitude).to eq(-3.7030654)
-    expect(location.formatted_address).to eq("Calle Pilarica, 62, 28026 Madrid, Spain")
+    expect(location.latitude).to eq(40.4169473)
+    expect(location.longitude).to eq(-3.7035285)
+    expect(location.formatted_address).to eq("Puerta del Sol, Plaza de la Puerta del Sol, s/n, 28013 Madrid, Spain")
     expect(location.error).to be_nil
   end
 
@@ -38,6 +38,6 @@ RSpec.describe GeocodingService do
     expect(location_invent.longitude).to be_nil
     expect(location_invent.formatted_address).to be_nil
     expect(location_invent.error).not_to be_nil
-    expect(location_invent.error).to eq("address not exist")
+    expect(location_invent.error).to eq("ZERO_RESULTS")
   end
 end

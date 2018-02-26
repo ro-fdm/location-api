@@ -31,8 +31,15 @@ Decido usar el  secrets de rails 5 para manejar la API_KEY que estoy usando para
 https://www.engineyard.com/blog/encrypted-rails-secrets-on-rails-5.1
 Como esto es un ejercicio si commiteo el secrets.yml
 
+Añado en el servicio el control de errores, a partir de la info que nos da la api de google.
+Para guardar que ha pasado añado un campo error en location.
+
+En el servicio que llama a google se puede filtrar el resultado por:
+- location_type priorizando ROOFTOP
+- types priorizando street_address sobre menos concretos.
+Por ahora cogemos el primero.
+
  TODO:
- - control de errores de api geocodin
  - llamar a un delayed job para geocoding en el controlador
  - añadir geocodificacion inversa y ver que nos devuelve ( puede ser intereseante)
  - añadir comprobar si la direccion existe para no repetir llamadas
