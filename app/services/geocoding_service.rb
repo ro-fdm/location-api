@@ -1,6 +1,5 @@
 require 'json'
 class GeocodingService
-  API_KEY="AIzaSyD0BoS9D4bJ8GAJkmNZcDX7WARMj4zZChs"
 
   def initialize(location:)
     @location = location
@@ -19,7 +18,7 @@ class GeocodingService
   end
 
   def call_google_maps
-    url       = "https://maps.googleapis.com/maps/api/geocode/json?" + "address=#{build_address} " + "&key=#{API_KEY}"
+    url       = "https://maps.googleapis.com/maps/api/geocode/json?" + "address=#{build_address} " + "&key=#{ENV["api_google_maps"]}"
     parse_url = URI.escape(url)
     response  = RestClient.get(parse_url)
     get_coordinates(response)

@@ -19,8 +19,8 @@ RSpec.describe GeocodingService do
     expect(@location.longitude).not_to be_nil
     expect(@location.formatted_address).not_to be_nil
 
-    expect(@location.latitude.to_f).to eq(40.3838781)
-    expect(@location.longitude.to_f).to eq(-3.7030654)
+    expect(@location.latitude).to eq(40.3838781)
+    expect(@location.longitude).to eq(-3.7030654)
     expect(@location.formatted_address).to eq("Calle Pilarica, 62, 28026 Madrid, Spain")
   end
 end

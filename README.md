@@ -25,6 +25,12 @@ Compruebo el test y recuerdo que tengo que
 
 Creo algunas direcciones con ñ, me da error la url, asi que la parseo con URI.escape.
 
+Elimino el postcode como campo obligatorio ( soy la priemra que no se lo suele saber cuadno escribo direcciones en google maps)
+
+Decido usar el  secrets de rails 5 para manejar la API_KEY que estoy usando para llamar a la api de google maps. 
+https://www.engineyard.com/blog/encrypted-rails-secrets-on-rails-5.1
+Como esto es un ejercicio si commiteo el secrets.yml
+
  TODO:
  - control de errores de api geocodin
  - llamar a un delayed job para geocoding en el controlador
