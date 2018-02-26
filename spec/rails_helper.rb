@@ -49,7 +49,39 @@ RSpec.configure do |config|
   end
 
   def body
-    "{\n   \"results\" : [\n      {\n         \"address_components\" : [\n            {\n               \"long_name\" : \"62\",\n               \"short_name\" : \"62\",\n               \"types\" : [ \"street_number\" ]\n            },\n            {\n               \"long_name\" : \"Calle Pilarica\",\n               \"short_name\" : \"Calle Pilarica\",\n               \"types\" : [ \"route\" ]\n            },\n            {\n               \"long_name\" : \"Madrid\",\n               \"short_name\" : \"Madrid\",\n               \"types\" : [ \"locality\", \"political\" ]\n            },\n            {\n               \"long_name\" : \"Madrid\",\n               \"short_name\" : \"M\",\n               \"types\" : [ \"administrative_area_level_2\", \"political\" ]\n            },\n            {\n               \"long_name\" : \"Comunidad de Madrid\",\n               \"short_name\" : \"Comunidad de Madrid\",\n               \"types\" : [ \"administrative_area_level_1\", \"political\" ]\n            },\n            {\n               \"long_name\" : \"Spain\",\n               \"short_name\" : \"ES\",\n               \"types\" : [ \"country\", \"political\" ]\n            },\n            {\n               \"long_name\" : \"28026\",\n               \"short_name\" : \"28026\",\n               \"types\" : [ \"postal_code\" ]\n            }\n         ],\n         \"formatted_address\" : \"Calle Pilarica, 62, 28026 Madrid, Spain\",\n         \"geometry\" : {\n            \"location\" : {\n               \"lat\" : 40.3838781,\n               \"lng\" : -3.7030654\n            },\n            \"location_type\" : \"ROOFTOP\",\n            \"viewport\" : {\n               \"northeast\" : {\n                  \"lat\" : 40.38522708029149,\n                  \"lng\" : -3.701716419708498\n               },\n               \"southwest\" : {\n                  \"lat\" : 40.38252911970849,\n                  \"lng\" : -3.704414380291502\n               }\n            }\n         },\n         \"place_id\" : \"ChIJSaSdy7InQg0Rg_swuJV20qI\",\n         \"types\" : [ \"street_address\" ]\n      }\n   ],\n   \"status\" : \"OK\"\n}\n"
+    {
+    "results": [
+        {"address_components": [
+          {"long_name": "Puerta del Sol", "short_name": "Puerta del Sol", "types": [ "establishment","park","point_of_interest"]},
+          {"long_name": "s/n","short_name": "s/n","types": ["street_number"]},
+          {"long_name": "Plaza de la Puerta del Sol","short_name": "Plaza de la Puerta del Sol","types": ["route"]},
+          {"long_name": "Madrid","short_name": "Madrid","types": ["locality","political"]},
+          {"long_name": "Madrid","short_name": "M","types": ["administrative_area_level_2","political"]},
+          {"long_name": "Comunidad de Madrid","short_name": "Comunidad de Madrid","types": ["administrative_area_level_1","political"]},
+          {"long_name": "Spain","short_name": "ES","types": ["country","political"]},
+          {"long_name": "28013","short_name": "28013","types": ["postal_code"]}
+          ],
+          "formatted_address": "Puerta del Sol, Plaza de la Puerta del Sol, s/n, 28013 Madrid, Spain",
+          "geometry": {"location": {"lat": 40.4169473,"lng": -3.7035285},
+                      "location_type": "ROOFTOP",
+                      "viewport": {"northeast": {"lat": 40.4182962802915,"lng": -3.702179519708498},
+                                   "southwest": {"lat": 40.4155983197085,"lng": -3.704877480291502}
+                                  }
+                      },
+          "place_id": "ChIJXz_iGX4oQg0R-9a-2eSgws4",
+          "types": ["establishment","park","point_of_interest"]
+        }],
+     "status": "OK"
+    }.to_json
+  end
+
+  def intercept_not_exist
+    stub_request(:get, /maps\.googleapis\.com*/).
+      to_return(
+        status: 200,
+        body: {"results": [],
+               "status": "ZERO_RESULTS"}.to_json
+        )
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -67,7 +99,7 @@ RSpec.configure do |config|
   # You can disable this behaviour by removing the line below, and instead
   # explicitly tag your specs with their type, e.g.:
   #
-  #     RSpec.describe UsersController, :type => :controller do
+  #     RSpec.describe UsersController, :type: :controller do
   #       # ...
   #     end
   #

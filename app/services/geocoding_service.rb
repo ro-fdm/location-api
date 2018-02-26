@@ -3,38 +3,52 @@ class GeocodingService
 
   def initialize(location:)
     @location = location
-    @coordinates = {}
   end
 
   def run
-    call_google_maps
-    add_coordinates
+    @location.update!(get_coordinates)
   end
 
   private
+
+  def get_coordinates
+    response  = RestClient.get(parse_url)
+
+    handle_response(response)
+  end
+
+  def parse_url
+    url = "https://maps.googleapis.com/maps/api/geocode/json?" +
+          "address=#{build_address} " + 
+          "&key=#{ENV["api_google_maps"]}"
+    URI.escape(url)
+  end
 
   def build_address
     "#{@location.address} #{@location.postcode} #{@location.city} #{@location.country}"
   end
 
-  def call_google_maps
-    url       = "https://maps.googleapis.com/maps/api/geocode/json?" + "address=#{build_address} " + "&key=#{ENV["api_google_maps"]}"
-    parse_url = URI.escape(url)
-    response  = RestClient.get(parse_url)
-    get_coordinates(response)
+  def handle_response(response)
+    parse_response = JSON.parse(response)
+    first_result   = parse_response["results"].first
+    if parse_response["status"] == "OK"
+      coordinates(first_result).merge( control_partial_match(first_result) )
+    else
+      { error: parse_response["status"] }
+    end
   end
 
-  def get_coordinates(response)
-    parse_response  = JSON.parse(response)
-    @coordinates    = {
-                       latitude: parse_response["results"].first["geometry"]["location"]["lat"],
-                       longitude: parse_response["results"].first["geometry"]["location"]["lng"],
-                       formatted_address: parse_response["results"].first["formatted_address"]
-                      }
+  def control_partial_match(result)
+    if result["partial_match"]
+      { error: "possible partial match" }
+    else
+      {}
+    end
   end
 
-  def add_coordinates
-    @location.update_columns(@coordinates)
+  def coordinates(result)
+    { latitude:          result.dig("geometry", "location", "lat"),
+      longitude:         result.dig("geometry", "location", "lng"),
+      formatted_address: result["formatted_address"] }
   end
-
 end
