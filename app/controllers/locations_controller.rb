@@ -7,7 +7,10 @@ class LocationsController < ApplicationController
 
   def create
     @location = Location.create!(location_params)
-    GeocodingService.new(location: @location).run
+    
+    GeocodingJob.perform_later(@location)
+    @location.update(status: "IN QUEUE")
+
     json_response(@location, :created)
   end
 
