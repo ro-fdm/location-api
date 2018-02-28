@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180226183032) do
+ActiveRecord::Schema.define(version: 20180228014329) do
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20180226183032) do
     t.decimal "longitude", precision: 11, scale: 7
     t.string "formatted_address"
     t.string "error"
+    t.string "status"
   end
 
 end

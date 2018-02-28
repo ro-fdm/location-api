@@ -34,13 +34,14 @@ class GeocodingService
     if parse_response["status"] == "OK"
       coordinates(first_result).merge( control_partial_match(first_result) )
     else
-      { error: parse_response["status"] }
+      { error: parse_response["status"],
+        status: "ERROR" }
     end
   end
 
   def control_partial_match(result)
     if result["partial_match"]
-      { error: "possible partial match" }
+      { error: "possible partial match"}
     else
       {}
     end
@@ -49,6 +50,7 @@ class GeocodingService
   def coordinates(result)
     { latitude:          result.dig("geometry", "location", "lat"),
       longitude:         result.dig("geometry", "location", "lng"),
-      formatted_address: result["formatted_address"] }
+      formatted_address: result["formatted_address"],
+      status: "OK" }
   end
 end
