@@ -45,7 +45,7 @@ RSpec.describe 'Locations API', type: :request do
   end
 
   describe 'POST /locations' do
-    let(:valid_attributes) { { name: "Rocio",
+    let(:valid_attributes) { { name: "trabajo",
                                address: "Calle Nuñez de Balboa, 120",
                                postcode: "28006",
                                city: "Madrid",
@@ -53,12 +53,12 @@ RSpec.describe 'Locations API', type: :request do
 
     context 'when the request is valid' do
       before do
-        intercept_googleapis
+        intercept_exist
         post '/locations', params: valid_attributes
       end
 
       it 'creates a todo' do
-        expect(json['name']).to eq('Rocio')
+        expect(json['name']).to eq('trabajo')
       end
 
       it 'returns status code 201' do
@@ -67,7 +67,7 @@ RSpec.describe 'Locations API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/locations', params: { name: "Rocio",
+      before { post '/locations', params: { name: "trabajo",
                                             city: "Madrid",
                                             country: "España"
        } }

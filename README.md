@@ -37,7 +37,7 @@ Para guardar que ha pasado añado un campo error en location.
 En el servicio que llama a google se puede filtrar el resultado por:
 - location_type priorizando ROOFTOP
 - types priorizando street_address sobre menos concretos.
-Por ahora cogemos el primero.
+Por ahora cogemos el primero. Aunque dejo una rama con como empezaria a ir en esa direccion (improve_results)
 
  TODO:
  - llamar a un delayed job para geocoding en el controlador
