@@ -17,4 +17,15 @@ RSpec.describe GeocodingJob, type: :job do
     expect(location.formatted_address).to eq("Puerta del Sol, Plaza de la Puerta del Sol, s/n, 28013 Madrid, Spain")
     expect(location.error).to be_nil
   end
+
+  it "handle unexpected error" do
+    location
+    location.update_columns(city: nil)
+
+    intercept_googleapis
+    GeocodingJob.perform_now(location)
+
+    expect(location.error).not_to be(nil)
+    expect(location.error).to eq("Validation failed: City can't be blank")
+  end
 end

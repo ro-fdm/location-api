@@ -45,15 +45,15 @@ RSpec.describe 'Locations API', type: :request do
   end
 
   describe 'POST /locations' do
-    let(:valid_attributes) { { name: "Rocio",
+    valid_attributes = { name: "Rocio",
                                address: "Calle Nuñez de Balboa, 120",
                                postcode: "28006",
                                city: "Madrid",
-                               country: "España"} }
+                               country: "España"}
     ActiveJob::Base.queue_adapter = :test
 
     context 'when the request is valid' do
-      before do
+      before(:all) do
         intercept_googleapis
         post '/locations', params: valid_attributes
       end

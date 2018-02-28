@@ -4,7 +4,7 @@ class GeocodingJob < ApplicationJob
   def perform(location)
     GeocodingService.new(location: location).run
 
-  rescue => error
-    location.update_columns(error: error)
+  rescue => e
+    location.update_columns(error: e.message)
   end
 end
