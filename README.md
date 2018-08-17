@@ -39,6 +39,7 @@ En el servicio que llama a google se puede filtrar el resultado por:
 - types priorizando street_address sobre menos concretos.
 Por ahora cogemos el primero. Aunque dejo una rama con como empezaria a ir en esa direccion (improve_results)
 
+
  TODO:
  - llamar a un delayed job para geocoding en el controlador
  - añadir geocodificacion inversa y ver que nos devuelve ( puede ser intereseante)

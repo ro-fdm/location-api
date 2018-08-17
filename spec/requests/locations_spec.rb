@@ -49,9 +49,11 @@ RSpec.describe 'Locations API', type: :request do
                                address: "Calle Nuñez de Balboa, 120",
                                postcode: "28006",
                                city: "Madrid",
-                               country: "España"} }
+                               country: "España"}
+    ActiveJob::Base.queue_adapter = :test
 
     context 'when the request is valid' do
+
       before do
         intercept_exist
         post '/locations', params: valid_attributes
@@ -63,6 +65,10 @@ RSpec.describe 'Locations API', type: :request do
 
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
+      end
+
+      it "enqeue geocoding job" do
+        expect(GeocodingJob).to have_been_enqueued
       end
     end
 
