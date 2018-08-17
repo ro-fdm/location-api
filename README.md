@@ -37,9 +37,7 @@ Para guardar que ha pasado añado un campo error en location.
 En el servicio que llama a google se puede filtrar el resultado por:
 - location_type priorizando ROOFTOP
 - types priorizando street_address sobre menos concretos.
-Por ahora cogemos el primero. Aunque dejo una rama con como iria pensandolo improve_results.
-
-Decido que geocalizar se convierta en una tarea encolada por si tarda. Y le añado a location un status (aunque este seria el momento de empezar a pensar si compensa crear otro modelo relacionado que guarde esta informacion.)
+Por ahora cogemos el primero. Aunque dejo una rama con como empezaria a ir en esa direccion (improve_results)
 
 
  TODO:

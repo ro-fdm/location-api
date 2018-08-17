@@ -30,12 +30,20 @@ class GeocodingService
 
   def handle_response(response)
     parse_response = JSON.parse(response)
-    first_result   = parse_response["results"].first
+    best_result    = select_result(parse_response["results"])
     if parse_response["status"] == "OK"
-      coordinates(first_result).merge( control_partial_match(first_result) )
+      coordinates(best_result).merge( control_partial_match(best_result) )
     else
       { error: parse_response["status"],
         status: "ERROR" }
+    end
+  end
+
+  def select_result(results)
+    if results.count >=2
+      results.detect{|r| r["geometry"]["location_type"] == "ROOFTOP"}
+    else
+      results.first
     end
   end
 

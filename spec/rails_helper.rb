@@ -40,7 +40,7 @@ RSpec.configure do |config|
 
   WebMock.disable_net_connect!(allow_localhost: true)
 
-  def intercept_googleapis
+  def intercept_exist
     stub_request(:get, /maps\.googleapis\.com*/).
       to_return(
         status: 200,
@@ -50,8 +50,8 @@ RSpec.configure do |config|
 
   def body
     {
-    "results": [
-        {"address_components": [
+     "results": [
+      {"address_components": [
           {"long_name": "Puerta del Sol", "short_name": "Puerta del Sol", "types": [ "establishment","park","point_of_interest"]},
           {"long_name": "s/n","short_name": "s/n","types": ["street_number"]},
           {"long_name": "Plaza de la Puerta del Sol","short_name": "Plaza de la Puerta del Sol","types": ["route"]},
@@ -61,17 +61,17 @@ RSpec.configure do |config|
           {"long_name": "Spain","short_name": "ES","types": ["country","political"]},
           {"long_name": "28013","short_name": "28013","types": ["postal_code"]}
           ],
-          "formatted_address": "Puerta del Sol, Plaza de la Puerta del Sol, s/n, 28013 Madrid, Spain",
-          "geometry": {"location": {"lat": 40.4169473,"lng": -3.7035285},
-                      "location_type": "ROOFTOP",
-                      "viewport": {"northeast": {"lat": 40.4182962802915,"lng": -3.702179519708498},
+       "formatted_address": "Puerta del Sol, Plaza de la Puerta del Sol, s/n, 28013 Madrid, Spain",
+       "geometry": {"location": {"lat": 40.4169473,"lng": -3.7035285},
+                    "location_type": "ROOFTOP",
+                    "viewport": {"northeast": {"lat": 40.4182962802915,"lng": -3.702179519708498},
                                    "southwest": {"lat": 40.4155983197085,"lng": -3.704877480291502}
-                                  }
-                      },
-          "place_id": "ChIJXz_iGX4oQg0R-9a-2eSgws4",
-          "types": ["establishment","park","point_of_interest"]
-        }],
-     "status": "OK"
+                                }
+                  },
+       "place_id": "ChIJXz_iGX4oQg0R-9a-2eSgws4",
+       "types": ["establishment","park","point_of_interest"]
+      }],
+      "status": "OK"
     }.to_json
   end
 
@@ -82,6 +82,45 @@ RSpec.configure do |config|
         body: {"results": [],
                "status": "ZERO_RESULTS"}.to_json
         )
+  end
+
+  def intercept_various_result
+    stub_request(:get, /maps\.googleapis\.com*/).
+      to_return(
+        status: 200,
+        body: {"results": various_result,
+               "status": "OK"}.to_json
+        )
+  end
+
+  def various_result
+    [{"address_components": [
+          {"long_name": "Puerta del Sol", "short_name": "Puerta del Sol", "types": [ "establishment","park","point_of_interest"]},
+          ],
+       "formatted_address": "Puerta del Sol, Plaza de la Puerta del Sol, s/n, 28013 Madrid, Spain",
+       "geometry": {"location": {"lat": 40.4169473,"lng": -3.7035285},
+                    "location_type": "RANGE_INTERPOLATED",
+                    "viewport": {"northeast": {"lat": 40.4182962802915,"lng": -3.702179519708498},
+                                   "southwest": {"lat": 40.4155983197085,"lng": -3.704877480291502}
+                                }
+                  },
+       "place_id": "ChIJXz_iGX4oQg0R-9a-2eSgws4",
+       "types": ["establishment","park","point_of_interest"]
+      },
+     {"address_components": [
+          {"long_name": "Puerta del Sol", "short_name": "Puerta del Sol", "types": [ "establishment","park","point_of_interest"]},
+          ],
+       "formatted_address": "result number two",
+       "geometry": {"location": {"lat": 12.3456789,"lng": 0.123456789},
+                    "location_type": "ROOFTOP",
+                    "viewport": {"northeast": {"lat": 40.4182962802915,"lng": -3.702179519708498},
+                                   "southwest": {"lat": 40.4155983197085,"lng": -3.704877480291502}
+                                }
+                  },
+       "place_id": "ChIJXz_iGX4oQg0R-9a-2eSgws4",
+       "types": ["establishment","park","point_of_interest"]
+      }
+    ]
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

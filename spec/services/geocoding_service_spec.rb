@@ -14,7 +14,7 @@ RSpec.describe GeocodingService do
                                       country: "Oz") }
 
   it "add coordinates" do
-    intercept_googleapis
+    intercept_exist
 
     expect(location.latitude).to be_nil
     expect(location.longitude).to be_nil
@@ -39,5 +39,15 @@ RSpec.describe GeocodingService do
     expect(location_invent.formatted_address).to be_nil
     expect(location_invent.error).not_to be_nil
     expect(location_invent.error).to eq("ZERO_RESULTS")
+  end
+
+  it "select best result" do
+    intercept_various_result
+    geocoding = GeocodingService.new(location: location)
+    geocoding.run
+
+    expect(location.latitude).to eq(12.3456789)
+    expect(location.longitude).to eq(0.1234568)
+    expect(location.formatted_address).to eq("result number two")
   end
 end
